@@ -51,13 +51,18 @@ export default {
           message: "Value must be a number!",
           trigger: "change",
         },
+        
       ],
     },
   }),
+  
   methods: {
     onSubmit() {
       this.$refs.addItemForm.validate((valid) => {
         if (valid) {
+          if (this.formData.type === "OUTCOME") {
+            this.formData.value = -this.formData.value;
+          }
           this.$emit("sumbitForm", { ...this.formData });
           this.$refs.addItemForm.resetFields();
         }

@@ -1,5 +1,5 @@
 <template>
-  <div class="total-value">Balance: {{ total }}</div>
+  <div class="total-value" :style="getBalanceColor">Balance: {{ total }}</div>
 </template>
 
 <script>
@@ -9,6 +9,21 @@ export default {
     total: {
       tepr: Number,
       default: 0,
+    },
+  },
+//   data: () => ({
+//     color: "",
+//   }),
+
+  computed: {
+    getBalanceColor() {
+      if (this.total> 0) {
+        return "color:green";
+      } else if (this.total < 0) {
+        return "color:red";
+      } else {
+        return "color:black";
+      }
     },
   },
 };
