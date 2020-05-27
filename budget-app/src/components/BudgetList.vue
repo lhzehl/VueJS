@@ -4,19 +4,19 @@
       <ElTabs type="card">
         <ElTabPane label="All">
           <template v-if="!isEmpty">
-            <BudgetItem :list="list" @deleteItem="deleteItem" />
+            <BudgetItem />
           </template>
           <ElAlert v-else type="info" :title="emptyTitle" :closable="false" />
         </ElTabPane>
         <ElTabPane label="INCOME">
           <template v-if="!isEmpty">
-            <BudgetItem :list="inSort" @deleteItem="deleteItem" />
+            <IncomeVal/>
           </template>
           <ElAlert v-else type="info" :title="emptyTitle" :closable="false" />
         </ElTabPane>
         <ElTabPane label="UOTCOME">
           <template v-if="!isEmpty">
-            <BudgetItem :list="outSort" @deleteItem="deleteItem" />
+            <OutcomeVal />
           </template>
           <ElAlert v-else type="info" :title="emptyTitle" :closable="false" />
         </ElTabPane>
@@ -26,45 +26,25 @@
 </template>
 <script>
 import BudgetItem from "./BudgetItem";
+import IncomeVal from "./IncomeVal";
+import OutcomeVal from "./OutcomeVal";
 
+import { mapGetters } from "vuex";
 export default {
   name: "BudgetList",
-  components: { BudgetItem },
-  props: {
-    list: {
-      type: Object,
-      default: () => ({}),
-    },
-  },
+  components: { BudgetItem, OutcomeVal, IncomeVal },
+
   data: () => ({
     header: "Budget List",
     emptyTitle: "Empty list",
   }),
   computed: {
+    ...mapGetters("items", ["itemsList"]),
     isEmpty() {
-      return !Object.keys(this.list).length;
+      return !Object.keys(this.itemsList).length;
     },
-    outSort() {
-      return Object.values(this.list).reduce((acc, item) => {
-        if (item.type === "UOTCOME") {
-          acc[item.id] = item;
-        }
-        return acc;
-      }, {});
-    },
-    inSort() {
-      return Object.values(this.list).reduce((acc, item) => {
-        if (item.type === "INCOME") {
-          acc[item.id]= item;
-        }
-        return acc;
-      }, {});
-    },
-  },
-  methods: {
-    deleteItem(id) {
-      this.$emit("deleteItem", id);
-    },
+
+
   },
 };
 </script>

@@ -29,17 +29,17 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   name: "Form",
   data() {
-const notZero = (rule, value, callback) => {
+    const notZero = (rule, value, callback) => {
       if (value === 0) {
         callback(new Error("Value can't be zero!"));
       } else {
         callback();
       }
     };
-
 
     return {
       formData: {
@@ -70,15 +70,18 @@ const notZero = (rule, value, callback) => {
       },
     };
   },
+  computed: {},
 
   methods: {
+    ...mapActions("items", ["addNewItem"]),
     onSubmit() {
       this.$refs.addItemForm.validate((valid) => {
         if (valid) {
           if (this.formData.type === "OUTCOME") {
             this.formData.value = -this.formData.value;
           }
-          this.$emit("sumbitForm", { ...this.formData });
+
+          this.addNewItem(this.formData);
           this.$refs.addItemForm.resetFields();
         }
       });

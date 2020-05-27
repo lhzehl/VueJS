@@ -2,16 +2,14 @@
   <div>
     <div
       class="list-item"
-      v-for="(item, prop) in itemsList"
+      v-for="(item, prop) in outSort"
       :key="prop"
       :class="item.type"
     >
-      <template v-if="item.type === 'UOTCOME'">
+
         <i class="el-icon-bottom"></i>
-      </template>
-      <template v-else>
-        <i class="el-icon-top"></i>
-      </template>
+
+
       <span class="budget-comment">
         {{ item.comment }}
       </span>
@@ -40,13 +38,21 @@
 import { mapGetters } from "vuex";
 import { mapActions } from "vuex";
 export default {
-  name: "BudgetItem",
+  name: "OutcomeVal",
 
   data: () => ({
     dialogVisible: false,
   }),
   computed: {
     ...mapGetters("items", ["itemsList"]),
+        outSort() {
+      return Object.values(this.itemsList).reduce((acc, item) => {
+        if (item.type === "UOTCOME") {
+          acc[item.id] = item;
+        }
+        return acc;
+      }, {});
+    },
   },
   methods: {
     ...mapActions("items", ["deleteItem"]),
