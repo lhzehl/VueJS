@@ -31,31 +31,46 @@
 <script>
 export default {
   name: "Form",
-  data: () => ({
-    formData: {
-      type: "INCOME",
-      comment: "",
-      value: 0,
-    },
-    rules: {
-      type: [
-        { required: true, message: "Please select type", trigger: "blur" },
-      ],
-      comment: [
-        { required: true, message: "Please input comment", trigger: "change" },
-      ],
-      value: [
-        { required: true, message: "Please input value", trigger: "change" },
-        {
-          type: "number",
-          message: "Value must be a number!",
-          trigger: "change",
-        },
-        
-      ],
-    },
-  }),
-  
+  data() {
+const notZero = (rule, value, callback) => {
+      if (value === 0) {
+        callback(new Error("Value can't be zero!"));
+      } else {
+        callback();
+      }
+    };
+
+
+    return {
+      formData: {
+        type: "INCOME",
+        comment: "",
+        value: 1,
+      },
+      rules: {
+        type: [
+          { required: true, message: "Please select type", trigger: "blur" },
+        ],
+        comment: [
+          {
+            required: true,
+            message: "Please input comment",
+            trigger: "change",
+          },
+        ],
+        value: [
+          { required: true, message: "Please input value", trigger: "change" },
+          {
+            type: "number",
+            message: "Value must be a number!",
+            trigger: "change",
+          },
+          { validator: notZero, trigger: "change" },
+        ],
+      },
+    };
+  },
+
   methods: {
     onSubmit() {
       this.$refs.addItemForm.validate((valid) => {
