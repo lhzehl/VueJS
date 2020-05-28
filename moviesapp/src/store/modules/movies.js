@@ -32,6 +32,14 @@ const moviesStore = {
     },
   },
   actions: {
+    initMoviesStore: {
+      //context => dispatch
+      handler({ dispatch }) {
+        dispatch("fetchMovies");
+      },
+      root: true,
+    },
+
     async fetchMovies({ getters, commit }) {
       //context => getters
       try {
