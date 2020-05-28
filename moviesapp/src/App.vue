@@ -1,31 +1,40 @@
 <template>
   <div id="app">
-    <MoviesList :list="moviesList" />
+    <PosterBg :poster="posterBg" />
+    <MoviesList :list="moviesList" @changeBg="changeBg" />
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
 import MoviesList from "@/components/MoviesList";
+import PosterBg from "@/components/PosterBg";
 export default {
   name: "App",
   components: {
     MoviesList,
+    PosterBg,
   },
+  data: () => ({
+    posterBg: "",
+  }),
   computed: {
     ...mapGetters("movies", ["moviesList"]),
   },
   methods: {
     ...mapActions("movies", ["fetchMovies"]),
+    changeBg(poster) {
+      this.posterBg = poster;
+    },
   },
 };
 </script>
 
 <style>
 #app {
-  font-family: Arial, Helvetica,  sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
+  position: relative;
 }
 </style>
