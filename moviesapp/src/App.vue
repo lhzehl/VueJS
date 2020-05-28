@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <Loader />
     <PosterBg :poster="posterBg" />
     <MoviesList :list="moviesList" @changeBg="changeBg" />
     <MoviesPagination
@@ -17,6 +18,7 @@ import MoviesList from "@/components/MoviesList";
 import PosterBg from "@/components/PosterBg";
 
 import MoviesPagination from "@/components/MoviesPagination";
+import Loader from "@/components/Loader";
 
 export default {
   name: "App",
@@ -24,6 +26,7 @@ export default {
     MoviesList,
     PosterBg,
     MoviesPagination,
+    Loader,
   },
   data: () => ({
     posterBg: "",
@@ -46,8 +49,8 @@ export default {
   },
   methods: {
     ...mapActions("movies", ["changeCurrentPage"]),
-    onPageQueryChange({page=1}={}){
-      this.changeCurrentPage(Number(page))
+    onPageQueryChange({ page = 1 } = {}) {
+      this.changeCurrentPage(Number(page));
     },
     changeBg(poster) {
       this.posterBg = poster;
