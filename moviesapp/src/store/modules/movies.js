@@ -10,7 +10,7 @@ function serializeRespons(movies) {
   }, {});
 }
 
-const { MOVIES, CURRENT_PAGE, REMOVE_MOVIE } = mutations;
+const { MOVIES, CURRENT_PAGE, REMOVE_MOVIE, TOGGLE_SEARCH } = mutations;
 
 const moviesStore = {
   namespaced: true,
@@ -19,6 +19,7 @@ const moviesStore = {
     moviesPerPage: 12,
     currentPage: 1,
     movies: {},
+    isSearch: false,
   },
   getters: {
     moviesList: ({ movies }) => movies,
@@ -27,6 +28,7 @@ const moviesStore = {
     currentPage: ({ currentPage }) => currentPage,
     moviesPerPage: ({ moviesPerPage }) => moviesPerPage,
     moviesLength: ({ top250IDs }) => Object.keys(top250IDs).length,
+    isSearch: ({ isSearch }) => isSearch,
     // top250IDs: ({ top250IDs }) => top250IDs,
   },
   mutations: {
@@ -38,6 +40,9 @@ const moviesStore = {
     },
     [REMOVE_MOVIE](state, index) {
       state.top250IDs.splice(index, 1);
+    },
+    [TOGGLE_SEARCH](state, bool) {
+      state.isSearch = bool;
     },
   },
   actions: {
@@ -82,6 +87,25 @@ const moviesStore = {
         commit(REMOVE_MOVIE, index);
         dispatch("fetchMovies");
       }
+    },
+    async searchMovies({ commit, dispatch }, query) {
+      try {
+        dispatch("toggleLoader", true, { root: true });
+
+        const response = await axios.get(`/?s=${query}`);
+        if (response.Error) {
+          throw Error(response.Error);
+        }
+        const movies = serializeRespons(response.Search);
+        commit(MOVIES, movies);
+      } catch (err) {
+        console.log(err.message);
+      } finally {
+        dispatch("toggleLoader", false, { root: true });
+      }
+    },
+    toggleSearchState({ commit }, bool) {
+      commit(TOGGLE_SEARCH, bool);
     },
   },
 };
