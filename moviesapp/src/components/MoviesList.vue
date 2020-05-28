@@ -4,7 +4,11 @@
     <BRow>
       <template v-if="isExist">
         <BCol cols="3" v-for="(movie, key) in list" :key="key">
-          <MovieItem :movie="movie" @mouseover.native="onMouserOver(movie.Poster)"/>
+          <MovieItem
+            :movie="movie"
+            @mouseover.native="onMouserOver(movie.Poster)"
+            @removeItem="onRemoveItem"
+          />
         </BCol>
       </template>
       <template v-else><div>Empty list</div></template>
@@ -13,6 +17,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import MovieItem from "./MovieItem";
 export default {
   name: "MoviesList",
@@ -25,10 +30,18 @@ export default {
   components: {
     MovieItem,
   },
-  methods:{
-      onMouserOver(poster){
-          this.$emit("changeBg", poster)
-      }
+  methods: {
+    ...mapActions("movies", ["removeMovie"]),
+    onMouserOver(poster) {
+      this.$emit("changeBg", poster);
+    },
+    async onRemoveItem({ id, title }) {
+      const isConfirmed = await this.$bvModal.msgBoxConfirm(
+        `Are you sure delete ${title}?`
+      );
+      if (isConfirmed) this.removeMovie(id);
+      console.log(isConfirmed);
+    },
   },
   computed: {
     isExist() {
@@ -40,7 +53,7 @@ export default {
 
 <style scoped>
 .list-title {
-    color: #fff;
+  color: #fff;
   font-size: 50px;
   margin-bottom: 30px;
 }
