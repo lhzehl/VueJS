@@ -1,0 +1,55 @@
+<template>
+  <div >
+    <b-card no-body class="overflow-hidden">
+      <b-row no-gutters>
+        <b-col md="6">
+          <b-card-img
+            :src="post.image"
+            alt="Image"
+            class="rounded-0 list-image"
+          ></b-card-img>
+        </b-col>
+        <b-col md="6">
+          <b-card-body :title="post.name">
+            <b-card-text>
+              {{ post.about }}
+            </b-card-text>
+          </b-card-body>
+          <BButton @click="viewPostDetail(post.id)" >View More</BButton>
+        </b-col>
+      </b-row>
+    </b-card>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "PostListItem",
+  props: {
+    post: {
+      type: Object,
+      required: true,
+    },
+  },
+  data: () => ({}),
+  computed: {
+    getImage() {
+      return this.post.image;
+    },
+  },
+  methods:{
+    viewPostDetail(id){
+      console.log(id)
+      this.$router.push(`post/${id}`, id)
+    }
+  }
+};
+</script>
+
+<style scoped>
+
+.list-image {
+  width: 270px;
+  height: 300px;
+}
+</style>

@@ -43,7 +43,10 @@ export default {
   },
   methods: {
     emitRemoveEvent() {
-      this.$emit('removeItem', {id:this.movie.imdbID, title:this.movie.Title})
+      this.$emit("removeItem", {
+        id: this.movie.imdbID,
+        title: this.movie.Title,
+      });
     },
   },
 };
