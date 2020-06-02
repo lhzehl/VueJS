@@ -9,10 +9,10 @@ const store = new Vuex.Store({
   mutations: {},
   actions: {},
   modules: {
-    posts,
-  },
+    posts
+  }
 });
 
-store.dispatch('initPostsStore')
+store.dispatch("initPostsStore");
 
 export default store;

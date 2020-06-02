@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div>
     <b-card no-body class="overflow-hidden">
       <b-row no-gutters>
         <b-col md="6">
@@ -15,7 +15,9 @@
               {{ post.about }}
             </b-card-text>
           </b-card-body>
-          <BButton @click="viewPostDetail(post.id)" >View More</BButton>
+          <BButton class="view-more" @click="viewPostDetail(post.id)"
+            >View More</BButton
+          >
         </b-col>
       </b-row>
     </b-card>
@@ -31,25 +33,35 @@ export default {
       required: true,
     },
   },
-  data: () => ({}),
+  data: () => ({
+    loading: false,
+    selection: 1,
+  }),
   computed: {
     getImage() {
       return this.post.image;
     },
   },
-  methods:{
-    viewPostDetail(id){
-      console.log(id)
-      this.$router.push(`post/${id}`, id)
-    }
-  }
+  methods: {
+    viewPostDetail(id) {
+      console.log(id);
+      this.$router.push(`post/${id}`, id);
+    },
+  },
 };
 </script>
 
 <style scoped>
-
 .list-image {
   width: 270px;
   height: 300px;
+}
+.view-more {
+  position: absolute;
+  right: 75px;
+  bottom: 10px;
+}
+.vtflist {
+  margin-bottom: 3px;
 }
 </style>

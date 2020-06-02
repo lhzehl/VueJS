@@ -16,11 +16,11 @@ const postsStore = {
     postsPerPage: 5,
     currentPage: 1,
     posts: {},
-    postDetail: {},
+    postDetail: {}
   },
   getters: {
     postsList: ({ posts }) => posts,
-    postDetail: ({ postDetail }) => postDetail,
+    postDetail: ({ postDetail }) => postDetail
     // currentPage: ({ currentPage }) => currentPage,
   },
   mutations: {
@@ -29,14 +29,14 @@ const postsStore = {
     },
     [POSTDETAIL](state, value) {
       state.postDetail = value;
-    },
+    }
   },
   actions: {
     initPostsStore: {
       handler({ dispatch }) {
         dispatch("fetchPosts");
       },
-      root: true,
+      root: true
     },
     async fetchPosts({ commit }) {
       //   const { currentPage } = getters; context => { getters }
@@ -56,8 +56,8 @@ const postsStore = {
       } catch (err) {
         console.log(err);
       }
-    },
-  },
+    }
+  }
 };
 
 export default postsStore;

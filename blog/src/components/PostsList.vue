@@ -4,7 +4,7 @@
     <BRow>
       <template v-if="isExist">
         <div class="mt-4" v-for="post in list" :key="post.id">
-          <PostListItem :post="post" class="post-list-item"/>
+          <PostListItem :post="post" class="post-list-item" />
         </div>
       </template>
     </BRow>
@@ -16,19 +16,19 @@ import PostListItem from "@/components/PostListItem";
 export default {
   name: "PostsList",
   components: {
-    PostListItem,
+    PostListItem
   },
   props: {
     list: {
       type: Object,
-      default: () => ({}),
-    },
+      default: () => ({})
+    }
   },
   computed: {
     isExist() {
       return Boolean(Object.keys(this.list).length);
-    },
-  },
+    }
+  }
 };
 </script>
 

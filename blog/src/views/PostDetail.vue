@@ -1,17 +1,6 @@
 <template>
   <div class="mt-4">
-      <PostDetailItem :post="postDetail"/>
-    <!-- <h4>Left and Right (or Start and End)</h4>
-    <b-card
-      img-src="https://placekitten.com/300/300"
-      img-alt="Card image"
-      img-left
-      class="mb-3"
-    >
-      <b-card-text>
-        {{ post.name }}
-      </b-card-text> -->
-    <!-- </b-card> -->
+    <PostDetailItem :post="postDetail" />
   </div>
 </template>
 
@@ -21,25 +10,31 @@ import PostDetailItem from "@/components/PostDetailItem";
 export default {
   name: "PostDetail",
   components: {
-    PostDetailItem,
+    PostDetailItem
   },
   props: {
     id: {
-      type: Number,
-    },
+      type: Number
+    }
   },
   data: () => ({
-    post: {},
+    post: {}
   }),
-    mounted() {
+  mounted() {
+    this.fetchPostDetail(this.id);
+  },
+  updated() {
     this.fetchPostDetail(this.id);
   },
   methods: {
     ...mapActions("posts", ["fetchPostDetail"]),
+    onChangePostId({ id = 1 }) {
+      this.id = id;
+    }
   },
   computed: {
-    ...mapGetters("posts", ["postDetail"]),
-  },
+    ...mapGetters("posts", ["postDetail"])
+  }
 };
 </script>
 

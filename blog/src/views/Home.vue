@@ -12,23 +12,22 @@ import PostsList from "@/components/PostsList";
 export default {
   name: "Home",
   components: {
-    PostsList,
+    PostsList
   },
   mounted() {
     // this.fetchPosts();
   },
   computed: {
-    ...mapGetters("posts", ["postsList"]),
+    ...mapGetters("posts", ["postsList"])
   },
   methods: {
-    ...mapActions("posts", ["fetchPosts"]),
-  },
+    ...mapActions("posts", ["fetchPosts"])
+  }
 };
 </script>
 
 <style>
 .home {
   color: #2c3e50;
-
 }
 </style>
