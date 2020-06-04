@@ -16,11 +16,11 @@ const postsStore = {
     postsPerPage: 5,
     currentPage: 1,
     posts: {},
-    postDetail: {}
+    postDetail: {},
   },
   getters: {
     postsList: ({ posts }) => posts,
-    postDetail: ({ postDetail }) => postDetail
+    postDetail: ({ postDetail }) => postDetail,
     // currentPage: ({ currentPage }) => currentPage,
   },
   mutations: {
@@ -29,19 +29,19 @@ const postsStore = {
     },
     [POSTDETAIL](state, value) {
       state.postDetail = value;
-    }
+    },
   },
   actions: {
     initPostsStore: {
       handler({ dispatch }) {
         dispatch("fetchPosts");
       },
-      root: true
+      root: true,
     },
     async fetchPosts({ commit }) {
       //   const { currentPage } = getters; context => { getters }
       try {
-        const response = await axios.get("/object/");
+        const response = await axios.get("/api/v1/object/");
         const posts = serializeResponse(response.data);
         commit(POSTS, posts);
       } catch (err) {
@@ -50,14 +50,23 @@ const postsStore = {
     },
     async fetchPostDetail({ commit }, id) {
       try {
-        const response = await axios.get(`/object/${id}`);
+        const response = await axios.get(`/api/v1/object/${id}`);
         const postDetail = response.data;
         commit(POSTDETAIL, postDetail);
       } catch (err) {
         console.log(err);
       }
-    }
-  }
+    },
+    async fetchNewPost({ commit }, data) {
+      console.log(data, commit);
+      try {
+        const response = await axios.post("/api/v1/new/", JSON.stringify(data));
+        console.log(response);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+  },
 };
 
 export default postsStore;

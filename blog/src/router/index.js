@@ -1,8 +1,10 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
-import PostDetail from "../views/PostDetail";
+import Home from "@/views/Home.vue";
+import PostDetail from "@/views/PostDetail";
 import Authorization from "@/views/Authorization";
+import CreatePost from "@/views/CreatePost";
+import AuthProfile from "@/views/AuthProfile";
 
 Vue.use(VueRouter);
 
@@ -31,6 +33,16 @@ const routes = [
     path: "/authorization",
     name: "Authorization",
     component: Authorization,
+  },
+  {
+    path: "/createpost",
+    name: "CreatePost",
+    component: CreatePost,
+  },
+  {
+    path: "/profile",
+    name: "AuthProfile",
+    component: AuthProfile,
   },
 ];
 

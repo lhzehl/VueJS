@@ -1,13 +1,19 @@
-function setParams(config) {
-  const params = config.params || {};
-  config.params = Object.assign(params, {});
+function setHeaders(config) {
+  const headers = config.headers || {};
+  config.headers = Object.assign(headers, {
+    Authorization: localStorage.getItem("token")
+    ? `Token ${localStorage.getItem("token")}`
+    : "",
+
+    "Content-Type": "application/json",
+  });
   return config;
 }
 function returnData(res) {
   return res;
 }
 export default function(axios) {
-  axios.interceptors.request.use(setParams);
+  axios.interceptors.request.use(setHeaders);
 
   //
   axios.interceptors.response.use(returnData);
