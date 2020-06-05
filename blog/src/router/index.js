@@ -5,6 +5,7 @@ import PostDetail from "@/views/PostDetail";
 import Authorization from "@/views/Authorization";
 import CreatePost from "@/views/CreatePost";
 import AuthProfile from "@/views/AuthProfile";
+import CKeditortest from "@/views/CKeditortest";
 
 Vue.use(VueRouter);
 
@@ -18,7 +19,7 @@ const routes = [
     path: "/post/:id",
     name: "PostDetail",
     component: PostDetail,
-    props: true,
+    props: castRouteParams,
   },
   {
     path: "/about",
@@ -44,8 +45,17 @@ const routes = [
     name: "AuthProfile",
     component: AuthProfile,
   },
+  {
+    path: "/test",
+    name: "CKeditortest",
+    component: CKeditortest,
+  },
 ];
-
+function castRouteParams(route) {
+  return {
+    id: Number(route.params.id),
+  };
+}
 const router = new VueRouter({
   routes,
 });

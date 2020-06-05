@@ -4,46 +4,80 @@
       <section class="standart-section post-body">
         <div class="container">
           <h3 class="post-title text-center">{{ post.name }}</h3>
-          <div class="row">
-            <div class="col-4">
-              <div class="post-image">
-                <h5 class="post-author">author: {{ post.author.username }}</h5>
-                <img :src="post.image" :alt="post.name" class="img" />
+          <div class="row d-flex">
+            <div class="post-image">
+              <h5 class="post-author">author: {{ username }}</h5>
+              <h6 class="post-datepub">{{ localeDate }}</h6>
+              <img :src="post.image" :alt="post.name" class="img" />
+            </div>
 
-                <h6 class="post-datepub">{{ localeDate }}</h6>
-              </div>
-            </div>
-            <div class="col-6">
-              <div class="post-text">
-                <p>{{ post.description }}</p>
-              </div>
-            </div>
+            <div class="post-text" v-html="post.description"></div>
           </div>
         </div>
       </section>
     </main>
+    <b-button @click="show = !show">Comment</b-button>
+    <b-form v-if="show" :key="post.date_published">
+      <b-form-group id="input-group-1" label-for="input-1">
+        <b-form-input
+          id="input-1"
+          v-model="comment"
+          required
+          placeholder="Enter your comment"
+        ></b-form-input>
+      </b-form-group>
+      <b-button @click="onSubmit()" variant="primary"
+        >Submit</b-button
+      >
+    </b-form>
 
     <div v-for="review in post.reviews" :key="review.date_published">
-      <PostComments :review="review" />
+      <PostComments :review="review" :mid="post.id" />
     </div>
   </div>
 </template>
 
 <script>
 import PostComments from "@/components/PostComments";
+import { mapActions } from "vuex";
 export default {
   name: "PostDetailItem",
+  data: () => ({
+    comment: "",
+    show: false,
+  }),
   components: {
     PostComments,
   },
   props: {
     post: {
       type: Object,
+      required: true,
+      default: () => ({
+        author: {
+          username: "asf",
+        },
+      }),
     },
   },
   computed: {
     localeDate() {
       return new Date(this.post.date_published).toLocaleDateString();
+    },
+
+    username() {
+      return this.post.author.username;
+    },
+  },
+  methods: {
+    ...mapActions("posts", ["fetchNewComment"]),
+    onSubmit() {
+      // alert(this.commentP);
+      const data = {
+        text: this.comment,
+        main_object: this.post.id,
+      };
+      this.fetchNewComment(data);
     },
   },
 };
@@ -85,6 +119,8 @@ export default {
   justify-content: space-between;
 }
 .img {
+  max-width: 600px;
+  max-height: 800px;
   border: 2px solid black;
   border-radius: 22px;
 }

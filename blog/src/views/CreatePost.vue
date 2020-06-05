@@ -1,6 +1,11 @@
 <template>
   <div>
-    <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+    <b-form
+      @submit="onSubmit"
+      @reset="onReset"
+      v-if="show"
+      
+    >
       <b-form-group
         id="input-group-1"
         label="Title"
@@ -10,7 +15,6 @@
         <b-form-input
           id="input-1"
           v-model="form.name"
-          
           required
           placeholder="Enter title"
         ></b-form-input>
@@ -22,6 +26,17 @@
         description="Shot about your post:"
         label-for="input-2"
       >
+        <b-form-file
+          v-model="form.image"
+          :state="Boolean(form.image)"
+          type="file"
+          file="image"
+          placeholder="Choose a image or drop it here..."
+          drop-placeholder="Drop image here..."
+        ></b-form-file>
+        <div class="mt-3">
+          Selected image: {{ form.image ? form.image.name : "" }}
+        </div>
         <b-form-input
           id="input-2"
           v-model="form.about"
@@ -35,12 +50,11 @@
         description="description:"
         label-for="input-3"
       >
-        <b-form-input
-          id="input-3"
+        <ckeditor
+          :editor="editor"
           v-model="form.description"
-          required
-          placeholder="description"
-        ></b-form-input>
+          :config="editorConfig"
+        ></ckeditor>
       </b-form-group>
       <b-form-group id="input-group-4" label="Country:" label-for="input-4">
         <b-form-input
@@ -69,11 +83,11 @@
         ></b-form-select>
       </b-form-group>
 
-      <b-form-group id="input-group-7">
+      <!-- <b-form-group id="input-group-7">
         <b-form-checkbox-group v-model="form.draft" id="checkboxes-4">
           <b-form-checkbox value="true">Draft</b-form-checkbox>
         </b-form-checkbox-group>
-      </b-form-group>
+      </b-form-group> -->
 
       <b-button type="submit" variant="primary">Submit</b-button>
       <b-button type="reset" variant="danger">Reset</b-button>
@@ -86,27 +100,44 @@
 
 <script>
 import { mapActions } from "vuex";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 export default {
   name: "CreatePost",
   data: () => ({
     form: {
       name: "",
       about: "",
-      description: "",
+      image: null,
+      description: "<p>Content of the editor.</p>",
       country: "",
       tag: [],
       category: null,
-      draft: [],
+      draft: false,
+    },
+    editor: ClassicEditor,
+    // editorData: "",
+    editorConfig: {
+      // plugins: [
+      //   EssentialsPlugin,
+      //   BoldPlugin,
+      //   ItalicPlugin,
+      //   LinkPlugin,
+      //   ParagraphPlugin,
+      //   Font,
+      // ],
+      // toolbar: {
+      //   items: ["bold", "italic", "link", "undo", "redo", "fontFamily"],
+      // },
     },
 
     options: [
-      { value: "test tag", text: "test tag" },
-      { value: "second test tag", text: "second test tag" },
+      { value: 1, text: "test tag" },
+      { value: 2, text: "second test tag" },
     ],
     categories: [
       { text: "Choose category", value: null },
-      "first category",
-      "second category",
+      { text: "first category", value: 1 },
+      { text: "second category", value: 2 },
     ],
     show: true,
   }),
@@ -114,20 +145,23 @@ export default {
     ...mapActions("posts", ["fetchNewPost"]),
     onSubmit(evt) {
       evt.preventDefault();
-      alert(JSON.stringify(this.form));
+      // alert(JSON.stringify(this.form));
       const data = {
         name: this.form.name,
         about: this.form.about,
         description: this.form.description,
-        image: null,
+        image: this.form.image,
         category: this.form.category,
         country: this.form.country,
         tag: this.form.tag,
         draft: this.form.draft,
       };
-      console.log(data);
+      // const newData = JSON.stringify(data)
+      // newData["image"] = this.form.image
+      // console.log(this.form.image)
 
-        this.fetchNewPost(data);
+      this.fetchNewPost(data);
+      
     },
     onReset(evt) {
       evt.preventDefault();
@@ -135,11 +169,11 @@ export default {
 
       this.form.name = "";
       this.form.about = "";
-      this.form.description = "";
+      (this.form.image = null), (this.form.description = "");
       this.form.country = "";
       this.form.category = null;
       this.form.tags = [];
-      this.form.draft = [];
+      // this.form.draft = false;
       // Trick to reset/clear native browser form validation state
       this.show = false;
       this.$nextTick(() => {

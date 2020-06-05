@@ -4,4 +4,5 @@ export default {
   USER: "USER",
   ISAUTH: "ISAUTH",
   PROFILE: "PROFILE",
+  POSTAUTHOR:"POSTAUTHOR"
 };

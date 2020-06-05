@@ -44,8 +44,7 @@ export default {
   },
   methods: {
     viewPostDetail(id) {
-      console.log(id);
-      this.$router.push(`post/${id}`, id);
+      this.$router.push(`post/${id}`);
     },
   },
 };

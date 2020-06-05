@@ -1,6 +1,7 @@
 <template>
   <div class="mt-4">
-    <PostDetailItem :post="postDetail" />
+    <PostDetailItem v-if="Boolean(postDetail.author)" :post="postDetail" />
+    <div v-else></div>
   </div>
 </template>
 
@@ -10,31 +11,36 @@ import PostDetailItem from "@/components/PostDetailItem";
 export default {
   name: "PostDetail",
   components: {
-    PostDetailItem
+    PostDetailItem,
   },
   props: {
     id: {
-      type: Number
-    }
+      type: Number,
+    },
   },
-  data: () => ({
-    post: {}
-  }),
-  mounted() {
-    this.fetchPostDetail(this.id);
+  watch: {
+    "$route.params": {
+      handler: "onPostParamsChange",
+      immediate: true,
+      depp: true,
+    },
   },
-  updated() {
-    this.fetchPostDetail(this.id);
-  },
+
+  // mounted() {
+  //   this.fetchPostDetail(this.id);
+  // },
+  // updated() {
+  //   this.fetchPostDetail(this.id);
+  // },
   methods: {
     ...mapActions("posts", ["fetchPostDetail"]),
-    onChangePostId({ id = 1 }) {
-      this.id = id;
-    }
+    onPostParamsChange({ id = this.id } = {}) {
+      this.fetchPostDetail(Number(id));
+    },
   },
   computed: {
-    ...mapGetters("posts", ["postDetail"])
-  }
+    ...mapGetters("posts", ["postDetail"]),
+  },
 };
 </script>
 

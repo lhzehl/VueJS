@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^19.0.2",
+    "@ckeditor/ckeditor5-media-embed": "^19.1.0",
     "@ckeditor/ckeditor5-vue": "^1.0.1",
     "axios": "^0.19.2",
     "bootstrap": "^4.5.0",

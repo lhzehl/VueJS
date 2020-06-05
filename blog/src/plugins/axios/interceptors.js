@@ -2,10 +2,10 @@ function setHeaders(config) {
   const headers = config.headers || {};
   config.headers = Object.assign(headers, {
     Authorization: localStorage.getItem("token")
-    ? `Token ${localStorage.getItem("token")}`
-    : "",
+      ? `Token ${localStorage.getItem("token")}`
+      : "",
 
-    "Content-Type": "application/json",
+    "Content-Type":'multipart/form-data; boundary=----WebKitFormBoundaryBfpW7JErqslMoB7r'// "application/x-www-form-urlencoded", //"application/json"// 
   });
   return config;
 }
