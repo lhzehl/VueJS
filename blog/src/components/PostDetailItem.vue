@@ -4,19 +4,29 @@
       <section class="standart-section post-body">
         <div class="container">
           <h3 class="post-title text-center">{{ post.name }}</h3>
-          <div class="row d-flex">
-            <div class="post-image">
-              <h5 class="post-author">author: {{ username }}</h5>
-              <h6 class="post-datepub">{{ localeDate }}</h6>
-              <img :src="post.image" :alt="post.name" class="img" />
+          <div class="row row-post">
+            <div class="col-4">
+              <div class="post-image">
+                <h5 class="post-author">author: {{ username }}</h5>
+                <h6 class="post-datepub">{{ localeDate }}</h6>
+                <img :src="post.image" :alt="post.name" class="img" />
+              </div>
             </div>
 
-            <div class="post-text" v-html="post.description"></div>
+            <div class="col-6">
+              <div class="post-text" v-html="post.description"></div>
+            </div>
           </div>
+
+
+
+
         </div>
-      </section>
-    </main>
-    <b-button @click="show = !show">Comment</b-button>
+
+<div class="container">
+  <div class="row">
+<div class="col-12">
+      <b-button @click="show = !show">Comment</b-button>
     <b-form v-if="show" :key="post.date_published">
       <b-form-group id="input-group-1" label-for="input-1">
         <b-form-input
@@ -26,10 +36,14 @@
           placeholder="Enter your comment"
         ></b-form-input>
       </b-form-group>
-      <b-button @click="onSubmit()" variant="primary"
-        >Submit</b-button
-      >
+      <b-button @click="onSubmit()" variant="primary">Submit</b-button>
     </b-form>
+</div>
+</div>
+</div>
+      </section>
+    </main>
+
 
     <div v-for="review in post.reviews" :key="review.date_published">
       <PostComments :review="review" :mid="post.id" />
@@ -53,11 +67,6 @@ export default {
     post: {
       type: Object,
       required: true,
-      default: () => ({
-        author: {
-          username: "asf",
-        },
-      }),
     },
   },
   computed: {
@@ -84,7 +93,7 @@ export default {
 </script>
 
 <style scoped>
-.row {
+.row-post {
   background-color: rgb(199, 187, 206);
 }
 /* .standart-section {

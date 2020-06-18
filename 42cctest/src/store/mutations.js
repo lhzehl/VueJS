@@ -1,0 +1,6 @@
+export default {
+  PROFILE: "PROFILE",
+  REQUESTS:'REQUESTS',
+  ISAUTH: "ISAUTH",
+  ISADMIN: "ISADMIN",
+};

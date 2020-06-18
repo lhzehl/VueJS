@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "@/plugins/axios";
 import router from "@/router";
 import mutations from "@/store/mutations";
 
@@ -22,15 +22,16 @@ const authStore = {
     async fetchLogin({ commit }, authData) {
 
       console.log(JSON.stringify(authData));
+      const formData = new FormData();
+
+      Object.keys(authData).forEach((el) => {
+        formData.append(el, authData[el]);
+      });
+
       try {
         const response = await axios.post(
-          "http://34.89.217.1/auth/token/login",
-          JSON.stringify(authData),
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
+          "/auth/token/login", formData
+
         );
         localStorage.setItem(
           "token",
