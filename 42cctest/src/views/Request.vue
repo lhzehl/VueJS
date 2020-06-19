@@ -1,5 +1,6 @@
 <template>
   <div>
+    <router-link  class="btn" to="/profile">Profile</router-link >
     <RequestM />
   </div>
 </template>

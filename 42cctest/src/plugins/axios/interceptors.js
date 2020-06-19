@@ -6,7 +6,7 @@ function setHeaders(config) {
         : "",
   
       "Content-Type":'multipart/form-data; boundary=----WebKitFormBoundaryBfpW7JErqslMoB7r',// "application/x-www-form-urlencoded", //"application/json"// 
-      "X-Requested-With": "XMLHttpRequest"
+      // "X-Requested-With": "XMLHttpRequest"
     });
     return config;
   }

@@ -1,7 +1,9 @@
 <template>
   <div class="profile">
-    <router-link  class="btn" to="/login">Login</router-link >
+
+
     <ProfileItem v-if="Boolean(profile.id)" :profile="profile" />
+    <router-link class="btn btn-warning" to="/requests">Request</router-link>
   </div>
 </template>
 
@@ -18,7 +20,8 @@ export default {
     document.title = 'Profile'
   },
   computed:{
-    ...mapGetters('profile', ['profile'])
+    ...mapGetters('profile', ['profile']),
+
   },
   methods: {
     ...mapActions("profile", ["fetchProfile"]),

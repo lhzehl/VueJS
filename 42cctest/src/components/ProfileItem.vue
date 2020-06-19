@@ -1,5 +1,7 @@
 <template>
   <div class="container">
+    <button class="btn btn-success" v-if="isLogin">Edit</button>
+    <router-link v-else class="btn btn-primary" to="/login">Login</router-link>
     <div class="row">
       <div class="col-6">
         <p>{{ profile.name }}</p>
@@ -24,6 +26,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "ProfileItem",
   props: {
@@ -31,13 +34,28 @@ export default {
       type: Object,
       required: true,
     },
-    
   },
-  computed:{
-        localeDate() {
+  data: () => ({
+    form: {
+      name: profile.name,
+      last_name: profile.last_name,
+      dob: profile.dob,
+      photo:null,
+      c_mail:profile.c_mail,
+      jabber:profile.jabber,
+      skype:profile.skype,
+      other_contacts:profile.other_contacts
+    },
+  }),
+  computed: {
+    ...mapGetters("auth", ["isLogin"]),
+    localeDate() {
       return new Date(this.profile.dob).toLocaleDateString();
     },
   },
+  methods:{
+    
+  }
 };
 </script>
 

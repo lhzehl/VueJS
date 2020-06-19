@@ -33,6 +33,7 @@ const authStore = {
           "/auth/token/login", formData
 
         );
+        console.log(response)
         localStorage.setItem(
           "token-42cctest",
           JSON.stringify(response.data.auth_token).slice(1, -1)
