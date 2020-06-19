@@ -31,17 +31,19 @@ export default {
     this.requestSocket = new WebSocket(
       "ws://" + `127.0.0.1:8000` + "/request/"
     );
-    this.requestSocket.onmessage = ()=>{
+    this.requestSocket.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      console.log(data);
+      console.log(typeof data);
 
-      this.fetchRequests();
+      this.reloadRequestlist(data);
       if (this.numberOfRequest < 10) {
         this.numberOfRequest++;
         document.title = `${this.numberOfRequest}N Task 3`;
       }
-
-    }
+    };
   },
-  destroyed: function(){
+  destroyed: function() {
     this.requestSocket.close(1000, "left from request page");
   },
   computed: {
@@ -49,12 +51,9 @@ export default {
     isExist() {
       return Boolean(Object.keys(this.objectOfRequests).length);
     },
-    // isNewRequest(){
-    //   return this.numberOfRequest
-    // }
   },
   methods: {
-    ...mapActions("requests", ["fetchRequests"]),
+    ...mapActions("requests", ["fetchRequests", 'reloadRequestlist']),
     ActivityHandler() {
       document.title = "Task 3";
       this.numberOfRequest = 0;

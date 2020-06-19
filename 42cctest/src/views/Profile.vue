@@ -1,5 +1,6 @@
 <template>
   <div class="profile">
+    <router-link  class="btn" to="/login">Login</router-link >
     <ProfileItem v-if="Boolean(profile.id)" :profile="profile" />
   </div>
 </template>
