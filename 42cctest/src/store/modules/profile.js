@@ -27,6 +27,22 @@ const profileStore = {
         console.log(err);
       }
     },
+    async fetchUpdateProfile({ commit }, data) {
+      const formData = new FormData();
+
+      Object.keys(data).forEach((el) => {
+        formData.append(el, data[el]);
+      });
+      try {
+        const response = await axios.patch("/api/v1/profile/1/", formData);
+        console.log(response.data)
+        commit(PROFILE, response.data);
+
+      } catch (err) {
+        console.log(err);
+        // console.log(commit);
+      }
+    },
   },
 };
 export default profileStore;

@@ -2,7 +2,7 @@
   <div class="profile">
 
 
-    <ProfileItem v-if="Boolean(profile.id)" :profile="profile" />
+    <ProfileItem v-if="Boolean(profile.name)" :profile="profile" />
     <router-link class="btn btn-warning" to="/requests">Request</router-link>
   </div>
 </template>
